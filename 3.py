@@ -3,13 +3,8 @@
 from random import randint
 
 turn_counter = 0
-playing_field = [
-                 '0', '1', '2', # первая строка    (значения)
-                 '3', '4', '5', # третья строка    (значения)
-                 '6', '7', '8', # пятая строка     (значения)
-                ]
+playing_field = [str(i) for i in range(9)]
 separator = ['---', '-', '---', '-', '---']
-
 
 def print_playing_field():
     global playing_field
@@ -25,8 +20,6 @@ def print_playing_field():
             for sep in separator:
                 print(sep, end='')
             print()
-        
-
 def check_for_win(symbol):
     global playing_field
     # горизонтали
@@ -44,7 +37,6 @@ def check_for_win(symbol):
         or playing_field[2] == playing_field[4] == playing_field[6] == symbol):
         return True
     return False
-
 def player_turn(player_name, symbol):
     global playing_field
     global turn_counter
@@ -55,11 +47,10 @@ def player_turn(player_name, symbol):
             playing_field[turn] = symbol
             turn_counter += 1
             break
-
 def run_with_human():
     global turn_counter
     turn_counter = randint(1, 2)
-    while True:
+    while len(list(filter(lambda x: x.isdigit(), playing_field))) > 0:
         player_name = ""
         symbol = ""
         print_playing_field()
@@ -69,14 +60,14 @@ def run_with_human():
             player_turn(player_name, symbol)
             if check_for_win(symbol):
                 print(f"'{player_name}' побеждает!")
-                break
+                return
         else:
             player_name = "Second"
             symbol = "O"
             player_turn(player_name, symbol)
             if check_for_win(symbol):
                 print(f"'{player_name}' побеждает!")
-                break
+                return
     print("Ничья")
 
 run_with_human()
