@@ -14,10 +14,10 @@ from random import randint
 candies = 2021
 first_player_candies = 0
 second_player_candies = 0
-move_counter = 0
+turn_counter = 0
 
 def take_candies(player_name):
-    global move_counter
+    global turn_counter
     global candies
     while True:
         print(f"Ход игрока '{player_name}'. Осталось {candies} конфет")
@@ -27,14 +27,14 @@ def take_candies(player_name):
             num = input(f"Возьмите количество конфет от 0 до {candies}: ")
         num = int(num)
         if 0 <= num <= 28 and num <= candies:
-            move_counter += 1
+            turn_counter += 1
             candies -= num
             return num
         else:
             continue
 
-def bot_move():
-    global move_counter
+def bot_turn():
+    global turn_counter
     global candies
 
     num = 0
@@ -47,19 +47,19 @@ def bot_move():
             num = candies
     candies -= num
     print(f"Ход игрока 'Bot'. Взял {num} конфет")
-    move_counter += 1
+    turn_counter += 1
     
     return num
 
 def run_with_human():
-    global move_counter
+    global turn_counter
     global first_player_candies
     global second_player_candies
 
-    move_counter = randint(1, 2)
+    turn_counter = randint(1, 2)
     while candies > 0:
         player_name = ""
-        if not move_counter % 2:
+        if not turn_counter % 2:
             player_name = "First"
             first_player_candies += take_candies(player_name)
         else:
@@ -70,19 +70,19 @@ def run_with_human():
     
 
 def run_with_bot():
-    global move_counter
+    global turn_counter
     global first_player_candies
     global second_player_candies
 
-    move_counter = randint(1, 2)
+    turn_counter = randint(1, 2)
     while candies > 0:
         winner_name = ""
-        if not move_counter % 2:
+        if not turn_counter % 2:
             winner_name = "Player"
             first_player_candies += take_candies("Player")
         else:
             winner_name = "Bot"
-            second_player_candies += bot_move()
+            second_player_candies += bot_turn()
     print(f"'{winner_name}' wins! He won {first_player_candies + second_player_candies}")
 
 
